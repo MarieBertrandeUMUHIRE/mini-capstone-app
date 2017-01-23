@@ -1,0 +1,18 @@
+<h1>All the Products</h1>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Description</th>
+    <th>Image</th>
+  </tr>
+  <% @products.each do |product| %>
+    <tr>
+      <td><%= product.name %></td>
+      <td>$<%= product.price %></td>
+      <td><%= product.description %></td>
+      <td><img src="<%= product.image %>" class="img-responsive"></td>
+      
+    </tr>
+  <% end %>
+</table>
