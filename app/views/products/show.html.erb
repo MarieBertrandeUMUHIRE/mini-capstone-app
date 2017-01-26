@@ -1,12 +1,16 @@
 <h1> Product</h1>
 
-<h2> Name <%= @product.name %></h2>
-<h2> Price <%= @product.price %></h2>
+<h2> Name: <%= @product.name %></h2>
+<h2> Price: <%= @product.price %></h2>
 <image src="<%= @product.image %>">
-<h2> Description <%= @product.description %></h2>
+<h2> Description: <%= @product.description %></h2>
+<h2> time updated: <%= @product.friendly_created_at %></h2>
 
 
 
 <%= form_tag "/products/#{@product.id}", method: :delete do %>
-  <input type="submit" value="Destroy Product">
+  <input type="submit" value="Delete">
 <% end %> 
+
+
+<button class="btn btn-success"><a href="/products/<%= @product.id %>/edit">Edit</a></button>
