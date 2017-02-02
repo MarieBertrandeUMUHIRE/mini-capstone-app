@@ -1,38 +1,73 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>MiniCapstoneApp</title>
-    <%= csrf_meta_tags %>
+<head>
+  <title>MiniCapstoneApp</title>
+  <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
-  </head>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
+</head>
 
-  <body>
+<body>
 
-    <div class="container-fluid">
-      <nav class="navbar navbar-inverse">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">UMUHIRE LTD</a>
-        </div>
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">Shoes</a></li>
-          <li><a href="#">Clothes</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-          <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-        </ul>
+  <div class="container-fluid">
+    <nav class="navbar navbar-inverse">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">UMUHIRE LTD</a>
       </div>
-    </nav>
-    <div class="container">
-      <% flash.each do |name, message| %>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Clothes</a></li>
+    
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shoes <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/products/new">Add a new shoe </a></li>
+            <li><a href="/products?discount=165">Discount</a></li>
+            <li><a href="/products?price=desc">Sort By Price Lowest to Highest<span class="sr-only">(current)</span></a></li>
+            <li><a href="/products?price=asc">Sort By Price Highest to Lowest<span class="sr-only">(current)</span></a></li>
+            <li><a href="/products?random">Random shoe<span class="sr-only">(current)</span></a></li>
+
+          </ul>
+        </li>
+      </ul>
+
+        <!-- <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shoes <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/products/new">Add a new shoe </a></li>
+            <li><a href="http://www.jomashop.com/watches-for-men.html?features=Chronograph&gender=Men%27s&manufacturer=88+Rue+Du+Rhone&movement=Quartz&price_filter=%24250-%24500&style=Casual+Watches&watch_color=Black">Purchase</a></li>
+            <li><a href="/products?price=desc">Sort By Price Lowest to Highest<span class="sr-only">(current)</span></a></li>
+            <li><a href="/products?price=asc">Sort By Price Highest to Lowest<span class="sr-only">(current)</span></a></li>
+          </li> -->
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="container">
+        <% flash.each do |name, message| %>
         <div class="alert alert-<%= name %>" role="alert"><%= message %></div>
-      <% end %>
+        <% end %>
         <%= yield %>
-        
+
+        <div class="container">
+
+         <hr>
+
+         <!-- Footer -->
+         <footer>
+          <div class="row">
+            <div class="col-lg-12 text-center">
+              <p>Copyright &copy; 2017, UMUHIRE LTD - Kigali</p>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+
     </div>
   </body>
-</html>
+  </html>
