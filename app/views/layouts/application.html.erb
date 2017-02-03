@@ -17,9 +17,9 @@
         <a class="navbar-brand" href="#">UMUHIRE LTD</a>
       </div>
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">Clothes</a></li>
-    
+        <li class="active"><a href="/products">Home</a></li>
+        <li><a href="#">Clothes</a></li> 
+
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shoes <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -42,8 +42,12 @@
             <li><a href="/products?price=asc">Sort By Price Highest to Lowest<span class="sr-only">(current)</span></a></li>
           </li> -->
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <% if current_user %>
+             <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            <% else %>
+             <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+             <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <% end %>
           </ul>
         </div>
       </nav>

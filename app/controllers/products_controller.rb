@@ -24,6 +24,10 @@
   end
 
   def new
+    unless current_user
+    flash[:message] = "Only signed in cooks can create recipes!"
+    redirect_to "/signup"
+  end
 
   end
 
@@ -32,7 +36,7 @@
     price = params[:price]
     image = params[:image]
     description = params[:description]
-    product = Product.new({name: name, price: price, image: image, description: description })
+    product = Product.new({name: name, price: price, image: image, description: description,  user_id: current_user.id })
     product.save
     flash[:success] = "Product created"
     redirect_to "/products/#{product.id}"

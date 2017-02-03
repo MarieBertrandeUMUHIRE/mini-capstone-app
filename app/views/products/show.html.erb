@@ -10,9 +10,16 @@
  -->
 <h2><% @product.images.each do |image| %></h2>
 
-<img src ="<%= image.url %>" class="img-reponsive" >
-
 <% end %> 
+<div class="row">
+<h2><% @product.images.each do |image| %></h2>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <img src ="<%= image.url %>" class="img-reponsive" >
+    </div>
+  </div>
+    <% end %>
+</div>
 
 
 <%= form_tag "/products/#{@product.id}", method: :delete do %>
