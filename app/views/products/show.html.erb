@@ -26,5 +26,19 @@
   <input type="submit" value="Delete">
 <% end %> 
 
+<button ><a href="/products/<%= @product.id %>/edit">Edit</a></button>
 
-<button class="btn btn-success"><a href="/products/<%= @product.id %>/edit">Edit</a></button>
+<% if current_user %>
+   <%= form_tag "/carted_products", method: :post do %>
+     <div>
+       Quantity: <input type="text" name="quantity">
+     </div>
+     <div>
+       <input type="hidden" name="product_id" value="<%= @product.id %>">
+     </div>
+     <div>
+       <input type="submit" value="Add to Cart">
+     </div>
+   <% end %>
+ <% end %>
+

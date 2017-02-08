@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   patch "/products/:id", to:'products#update'
   delete "/products/:id", to: 'products#destroy'
   get "/signup" => "users#new"
+  post "/products/search", to: 'products#search'
   post "/users" => "users#create"
   get "/login" => "sessions#new"
   post "/login" => "sessions#create"
@@ -14,7 +15,9 @@ Rails.application.routes.draw do
   get "/images", to:'images#new'
   post "/images", to:'images#create'
   get "/orders", to:'orders#new'
-  post "/orders", to:'orders#create'
+  post "/carted_products", to:'carted_products#create'
+  get "/carted_products/:id", to:'carted_products#show'
+
 end
 
 
