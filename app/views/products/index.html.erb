@@ -1,21 +1,22 @@
-<h1>All the Products</h1>
+<h1>All Products</h1>
 
 <div class="row">
+  <% if current_user && current_user.admin %>
+  <%= link_to "Add Product", "/products/new" %>
+  <% end %>
+
   <% @products.each_slice(3) do |three_products| %>
-    <div class="row">
-        <% three_products.each do |product| %>
-          <div class="col-md-4">
-            <h2><%= link_to product.name, "/products/#{product.id}" %></h2>
-            <img src="<%= product.image %>" class="img-responsive">
-
-        
-            <h2> Price $ <%= product.price %></h2>
-
-            <h2> Description <%= product.description %></h2>
-
-
-          </div>
-        <% end %>
+  <div class="row">
+    <% three_products.each do |product| %>
+    <div class="col-md-4">
+      <h2><%= link_to product.name, "/products/#{product.id}" %></h2>
+      <h2><img src="product.image"></h2>
+      <h2>Description: <%= product.description %></h2>
+      <h2>Price: subl<%= product.price %></h2>
     </div>
+    <% end %>
+  </div>
   <% end %>
 </div>
+
+<!-- <h1>You have (your browser) visited this site <%= @visit_count %> times.</h1> -->

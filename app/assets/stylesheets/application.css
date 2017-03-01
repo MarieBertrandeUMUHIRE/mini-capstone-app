@@ -13,3 +13,5 @@
  *= require_tree .
  *= require_self
  */
+img { height:30%;
+width:40%; }

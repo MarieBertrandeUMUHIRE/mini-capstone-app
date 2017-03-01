@@ -1,90 +1,168 @@
- class ProductsController < ApplicationController
+class ProductsController < ApplicationController
+
+  before_action :authenticate_user!, except: [:index, :show, :search]
+  before_action :authenticate_admin!, only: [:new, :create, :edit, :update, :destroy]
 
   def index
-
-    if params[:price]
-      @products = Product.all.order(price: params[:price])
-
-    elsif params[:discount]
-      @products = Product.where("price < ?",165)
-    else
-      @products = Product.all
-    end
-    if session[:count] == nil
-      session[:count] = 0
-    end
-    session[:count] += 1
-    @visit_count = session[:count]
-
     if params[:sort]
       @products = Product.all.order(price: params[:price])
     elsif params[:filter] == "discount"
       @products = Product.discounted_products
     elsif params[:category]
-     @products =  Category.find_by(name: params[:category]).products
-   else
-    @products = Product.all
+      @products =  Category.find_by(name: params[:category]).products
+    else
+      @products = Product.all
+    end
   end
-end
 
-def show
-  if params[:id] == "random"
-    @product = Product.all.sample
+  def show
+    if params[:id] == "random"
+      @product = Product.all.sample
+    else
+      @product = Product.find_by(id: params[:id])
+    end
+  end
 
-  else
+  def new
+    @suppliers = Supplier.all
+    @product = Product.new
+  end
+
+  def create
+    @product = Product.new({
+      name: params[:name],
+      description: params[:description],
+      price: params[:price],
+      supplier_id: params[:supplier_id]
+      })
+    if @product.save
+      flash[:success] = "Product Created"
+      redirect_to "/products/#{@product.id}"
+    else
+      @suppliers = Supplier.all
+      flash[:warning] = "Product NOT Created"
+      render :new
+    end
+  end
+
+  def edit
+    @suppliers = Supplier.all
     @product = Product.find_by(id: params[:id])
-
-  end
-end
-
-def new
-  unless current_user
-    flash[:message] = "Only signed in cooks can create recipes!"
-    redirect_to "/signup"
   end
 
-end
+  def update
+    @product = Product.find_by(id: params[:id])
+    @product.assign_attributes({
+      name: params[:name],
+      description: params[:description],
+      price: params[:price],
+      supplier_id: params[:supplier_id]
+      })
+    if @product.save
+      flash[:success] = "Product Updated"  
+      redirect_to "/products/#{@product.id}"
+    else
+      @suppliers = Supplier.all
+      render :edit
+    end
+  end
 
-def create
-  name = params[:name]
-  price = params[:price]
-  image = params[:image]
-  description = params[:description]
-  product = Product.new({name: name, price: price, image: image, description: description,  user_id: current_user.id })
-  product.save
-  flash[:success] = "Product created"
-  redirect_to "/products/#{product.id}"
-end   
+  def destroy
+    @product = Product.find_by(id: params[:id])
+    @product.destroy
+    flash[:danger] = "Product Deleted"
+    redirect_to "/products"
+  end
 
+  def search
+    search_query = params[:search_input]
+    @products = Product.where("name LIKE ? OR description LIKE ?", "%#{search_query}%", "%#{search_query}%")
+    if @products.empty?
+      flash[:info] = "No products found in search"
+    end
+    render :index
+  end
+  before_action :authenticate_user!, except: [:index, :show, :search]
+  before_action :authenticate_admin!, only: [:new, :create, :edit, :update, :destroy]
 
-def edit
-  @product = Product.find_by(id: params[:id])
-end
+  def index
+    if params[:sort]
+      @products = Product.all.order(price: params[:price])
+    elsif params[:filter] == "discount"
+      @products = Product.discounted_products
+    elsif params[:category]
+      @products =  Category.find_by(name: params[:category]).products
+    else
+      @products = Product.all
+    end
+  end
 
-def update
-  product = Product.find_by(id: params[:id])
-  product.name = params[:name]
-  product.price = params[:price]
-  product.image = params[:image]
-  product.description = params[:description]
-  product.save
-  flash[:success] = "Product updated"
-  redirect_to "/products/#{product.id}"
-end
+  def show
+    if params[:id] == "random"
+      @product = Product.all.sample
+    else
+      @product = Product.find_by(id: params[:id])
+    end
+  end
 
-def destroy
- @product = Product.find_by(id: params[:id])
- @product.destroy
- flash[:danger] = "Product deleted"
- redirect_to "/products"
-end
-def search 
-  search_query = params[:search_input]
-  @products = Product.where("name LIKE ? OR price LIKE ?", "%#{search_query}%", "%#{search_query}%")
+  def new
+    @suppliers = Supplier.all
+    @product = Product.new
+  end
 
-  if @products.empty?
-   flash[:info] = "No product found in search"
- end
- render :index
-end
+  def create
+    @product = Product.new({
+      name: params[:name],
+      description: params[:description],
+      price: params[:price],
+      supplier_id: params[:supplier_id]
+      })
+    if @product.save
+      flash[:success] = "Product Created"
+      redirect_to "/products/#{@product.id}"
+    else
+      @suppliers = Supplier.all
+      flash[:warning] = "Product NOT Created"
+      render :new
+    end
+  end
+
+  def edit
+    @suppliers = Supplier.all
+    @product = Product.find_by(id: params[:id])
+  end
+
+  def update
+    @product = Product.find_by(id: params[:id])
+    @product.assign_attributes({
+      name: params[:name],
+      description: params[:description],
+      price: params[:price],
+      supplier_id: params[:supplier_id]
+      })
+    if @product.save
+      flash[:success] = "Product Updated"  
+      redirect_to "/products/#{@product.id}"
+    else
+      @suppliers = Supplier.all
+      render :edit
+    end
+  end
+
+  def destroy
+    @product = Product.find_by(id: params[:id])
+    @product.destroy
+    flash[:danger] = "Product Deleted"
+    redirect_to "/products"
+  end
+
+  def search
+    search_query = params[:search_input]
+    @products = Product.where("name LIKE ? OR description LIKE ?", "%#{search_query}%", "%#{search_query}%")
+    if @products.empty?
+      flash[:info] = "No products found in search"
+    end
+    render :index
+  end
+
 end

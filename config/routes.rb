@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root to: 'products#index'
   get "/products", to:'products#index'
   get "/products/new", to: 'products#new'
   get "/products/:id", to:'products#show'
@@ -15,8 +16,11 @@ Rails.application.routes.draw do
   get "/images", to:'images#new'
   post "/images", to:'images#create'
   get "/orders", to:'orders#new'
+  
   post "/carted_products", to:'carted_products#create'
-  get "/carted_products/:id", to:'carted_products#show'
+  get "/carted_products", to:'carted_products#index'
+  patch "/orders/:id", to:'orders#update'
+  delete "/carted_products/:id", to: 'carted_products#destroy'
 
 end
 
